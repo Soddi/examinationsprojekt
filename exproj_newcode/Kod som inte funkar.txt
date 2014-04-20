@@ -1,0 +1,67 @@
+function matlab_communication(s)
+    pause on;
+    set(s,'BaudRate',115200);
+    fopen(s);
+    set(s, 'Timeout',10000);
+    
+    n = 200;
+    % prefill vectors
+    h1 = zeros(1,n);
+    h2 = zeros(1,n);
+    e = zeros(1,n);
+    u = zeros(1,n);
+    t = zeros(1,n);
+    
+    h1_tmp = zeros(1,10);
+    h2_tmp = zeros(1,10);
+    e_tmp = zeros(1,10);
+    u_tmp = zeros(1,10);
+    
+    k = 1;
+    
+    for i=1:n
+        pause(0.01);
+        h1_value = fscanf(s, '%d');
+        
+        disp(['tank #1: ' num2str(h1_value)]);
+        %h1(i) = h1_val;
+        
+        h2_value = fscanf(s, '%d');
+        disp(['tank #2: ' num2str(h2_value)]);
+        %h2(i) = h2_val;
+        
+        e_value = fscanf(s, '%d');
+        disp(['error: ' num2str(e_value)]);
+        %e(i) = e_val;
+        
+        u_value = fscanf(s, '%d');
+        disp(['output: ' num2str(u_value)]);
+        %u(i) = u_val;
+        
+        t(i) = i;
+
+        while (k < 11)
+            h1_tmp(k) = h1_tmp(k) + h1_value;
+            h2_tmp(k) = h2_tmp(k) + h2_value;
+            e_tmp(k) = e_tmp(k) + e_value;
+            u_tmp(k) = u_tmp(k) + u_value;
+            if(k==10)
+                h1(i) = (h1_tmp(k)/10);
+                h2(i) = (h2_tmp(k)/10);
+                e(i) = (e_tmp(k)/10);
+                u(i) = (u_tmp(k)/10);
+                k=1;
+            end
+            k = k + 1;
+        end
+        
+        plot(t,h1,t,h2,t,e,t,u);
+        xlabel('Antal Samplingar');
+        ylabel('vattennivå');
+        legend('tank1','tank2','felvärde','styrsignalen','Location','North');
+        grid on;
+    end
+    fclose(s);
+    delete(s)
+    clear s;
+end
