@@ -1,5 +1,0 @@
-fclose(s)
-delete(s)
-clear s
-s = serial('COM22');
-matlab_communication(s)
