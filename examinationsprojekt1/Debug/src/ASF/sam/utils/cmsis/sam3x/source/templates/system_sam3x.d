@@ -2,13 +2,13 @@ src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.d \
  src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.o: \
  ../src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.c \
  ../src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/include/stdint.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/stdint.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/_ansi.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/newlib.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/config.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/machine/ieeefp.h \
- c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/features.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdint.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/newlib.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/config.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/ieeefp.h \
+ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/features.h \
  ../src/ASF/sam/utils/cmsis/sam3x/include/sam3xa.h \
  ../src/ASF/sam/utils/cmsis/sam3x/include/sam3x8e.h \
  ../src/ASF/thirdparty/CMSIS/Include/core_cm3.h \
@@ -85,19 +85,19 @@ src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.d \
 
 ../src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/include/stdint.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stdint.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/stdint.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/stdint.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/_ansi.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/newlib.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/newlib.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/config.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/config.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/machine/ieeefp.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/machine/ieeefp.h:
 
-c:\program\ files\atmel\atmel\ toolchain\arm\ gcc\native\4.7.1416\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.4/../../../../arm-none-eabi/include/sys/features.h:
+u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/features.h:
 
 ../src/ASF/sam/utils/cmsis/sam3x/include/sam3xa.h:
 

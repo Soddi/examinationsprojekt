@@ -9,11 +9,11 @@
 #include <asf.h>
 
 uint16_t user_setpoint = 0;
-uint16_t user_P = 0;
+double user_P = 0;
 uint16_t user_I = 0;
-uint16_t user_D = 0;
+double user_D = 0;
 
 uint16_t tank1_value = 0;
 uint16_t tank2_value = 0;
 int32_t error_value = 0;
-uint16_t output_signal = 0;
+uint32_t output_signal = 0;

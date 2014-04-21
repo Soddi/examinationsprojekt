@@ -24,7 +24,7 @@ xSemaphoreHandle semafor_signal = 0;
 /* signal characteristics */
 struct {
 	uint16_t setpoint;
-	uint16_t P;
+	double P;
 	uint16_t I;
 	uint16_t D;
 } reglering;

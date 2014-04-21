@@ -21,7 +21,7 @@ double Preg = 0;
 double Ireg = 0;
 double Dreg = 0;
 
-int16_t output_tmp = 0;
+int32_t output_tmp = 0;
 int i = 0;
 
 portTickType startTime = 0;
@@ -37,7 +37,7 @@ void pid_reg(void *p)
 	{
 		startTime = xTaskGetTickCount();
 		
-		if(user_P == 0 || user_I == 0 || user_D == 0) {
+		if((user_P/10) == 0 || user_I == 0 || (user_D/10) == 0) {
 			xSemaphoreGive(semafor_signal);
 			vTaskDelay(50);
 		}
@@ -59,8 +59,8 @@ void pid_reg(void *p)
 		/*PID*/
 		Preg = (double) error_value;
 		Ireg = ((sample_time/(double)user_I) * sum_error);
-		Dreg =  (user_D * ((error_value - old_error_value)/(double)(sample_time)));
-		output_tmp = (int16_t) (user_P * (Preg + Ireg + Dreg));
+		Dreg =  ((user_D) * ((error_value - old_error_value)/(double)(sample_time))/10);
+		output_tmp = (uint32_t) (user_P * (Preg + Ireg + Dreg))/10;
 		
 		/* control mode */
 		if(output_tmp > 4095) {
@@ -69,7 +69,7 @@ void pid_reg(void *p)
 			output_tmp = 0;
 		}
 
-		if(i < 5000) {
+		if(i < 2500) {
 			output_signal = output_tmp;
 			i++;
 		} else {

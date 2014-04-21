@@ -25,7 +25,7 @@ portTickType HMI_startTime = 0;
 /* signal characteristics */
 struct {
 	uint16_t setpoint;
-	uint16_t P;
+	double P;
 	uint16_t I;
 	uint16_t D;
 } reglering;
@@ -89,31 +89,31 @@ void handle_input(button btn_id)
 			break;
 			case UP:	/* Increase the value for the specified regulation */
 			if (ASTERIX_VALUE == 0 && reglering.setpoint < SETPOINT_MAX_VALUE) {
-				reglering.setpoint += 128;
+				reglering.setpoint += 16;
 			}
 			else if (ASTERIX_VALUE == 1 && reglering.P < P_MAX_VALUE) {
-				reglering.P += 1;
+				reglering.P += 0.1;
 			}
 			else if (ASTERIX_VALUE == 2 && reglering.I < I_MAX_VALUE) {
 				reglering.I += 50;
 			}
 			else if (ASTERIX_VALUE == 3 && reglering.D < D_MAX_VALUE) {
-				reglering.D += 5;
+				reglering.D += 1;
 			}
 			//printf("----------------------UP----------------------\n");
 			break;
 			case DOWN:	/* Decrease the value for the specified regulation */
 			if (ASTERIX_VALUE == 0 && reglering.setpoint > SETPOINT_MIN_VALUE) {
-				reglering.setpoint -= 128;
+				reglering.setpoint -= 16;
 			}
 			else if (ASTERIX_VALUE == 1 && reglering.P > P_MIN_VALUE) {
-				reglering.P -= 1;
+				reglering.P -= 0.1;
 			}
 			else if (ASTERIX_VALUE == 2 && reglering.I > I_MIN_VALUE) {
 				reglering.I -= 50;
 			}
 			else if (ASTERIX_VALUE == 3 && reglering.D > D_MIN_VALUE) {
-				reglering.D -= 5;
+				reglering.D -= 1;
 			}
 			//printf("----------------DOWN----------------------\n");
 			break;
@@ -176,7 +176,7 @@ void handle_input(button btn_id)
 static void display_values(void)
 {
 	/**********************/
-	/*     Borvarde      */
+	/* display PID-values */
 	/**********************/
 	
 	lcd_put_cursor(1, 0);

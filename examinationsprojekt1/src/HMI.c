@@ -93,13 +93,13 @@ void handle_input(button btn_id)
 			break;
 			case UP:	/* Increase the value for the specified regulation */
 			if (ASTERIX_VALUE == 0 && reglering.setpoint < SETPOINT_MAX_VALUE) {
-				reglering.setpoint += 5;
+				reglering.setpoint += 16;
 			}
 			else if (ASTERIX_VALUE == 1 && reglering.P < P_MAX_VALUE) {
 				reglering.P += 1;
 			}
 			else if (ASTERIX_VALUE == 2 && reglering.I < I_MAX_VALUE) {
-				reglering.I += 5;
+				reglering.I += 50;
 			}
 			else if (ASTERIX_VALUE == 3 && reglering.D < D_MAX_VALUE) {
 				reglering.D += 1;
@@ -108,13 +108,13 @@ void handle_input(button btn_id)
 			break;
 			case DOWN:	/* Decrease the value for the specified regulation */
 			if (ASTERIX_VALUE == 0 && reglering.setpoint > SETPOINT_MIN_VALUE) {
-				reglering.setpoint -= 5;
+				reglering.setpoint -= 16;
 			}
 			else if (ASTERIX_VALUE == 1 && reglering.P > P_MIN_VALUE) {
 				reglering.P -= 1;
 			}
 			else if (ASTERIX_VALUE == 2 && reglering.I > I_MIN_VALUE) {
-				reglering.I -= 5;
+				reglering.I -= 50;
 			}
 			else if (ASTERIX_VALUE == 3 && reglering.D > D_MIN_VALUE) {
 				reglering.D -= 1;

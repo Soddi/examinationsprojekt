@@ -11,11 +11,11 @@
 
 #define SETPOINT_MIN_VALUE 1024			/* minimum börvärde allowed */
 #define SETPOINT_MAX_VALUE 4096			/* maximum börvärde allowed */
-#define SETPOINT_START_VALUE 2049			/* initial value */
+#define SETPOINT_START_VALUE 1024			/* initial value */
 
 #define P_MIN_VALUE 1				/* minimum value for P-reglering */
 #define P_MAX_VALUE 9				/* minimum value for P-reglering */
-#define P_START_VALUE 5				/* minimum value for P-reglering */
+#define P_START_VALUE 2				/* minimum value for P-reglering */
 
 #define I_MIN_VALUE 100				/* minimum value for I-reglering */
 #define I_MAX_VALUE 999				/* minimum value for I-reglering */
