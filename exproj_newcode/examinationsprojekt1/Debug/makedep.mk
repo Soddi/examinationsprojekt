@@ -8,8 +8,6 @@ src\global_variables.c
 
 src\matlabcomm.c
 
-src\task3.c
-
 src\timer_delay.c
 
 src\ASF\common\services\serial\usart_serial.c

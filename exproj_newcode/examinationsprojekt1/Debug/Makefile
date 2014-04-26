@@ -100,7 +100,6 @@ C_SRCS +=  \
 ../src/ASF/sam/drivers/dacc/dacc.c \
 ../src/global_variables.c \
 ../src/matlabcomm.c \
-../src/task3.c \
 ../src/timer_delay.c \
 ../src/ASF/common/services/serial/usart_serial.c \
 ../src/ASF/common/utils/stdio/read.c \
@@ -145,7 +144,6 @@ OBJS +=  \
 src/ASF/sam/drivers/dacc/dacc.o \
 src/global_variables.o \
 src/matlabcomm.o \
-src/task3.o \
 src/timer_delay.o \
 src/ASF/common/services/serial/usart_serial.o \
 src/ASF/common/utils/stdio/read.o \
@@ -183,7 +181,6 @@ OBJS_AS_ARGS +=  \
 src/ASF/sam/drivers/dacc/dacc.o \
 src/global_variables.o \
 src/matlabcomm.o \
-src/task3.o \
 src/timer_delay.o \
 src/ASF/common/services/serial/usart_serial.o \
 src/ASF/common/utils/stdio/read.o \
@@ -221,7 +218,6 @@ C_DEPS +=  \
 src/ASF/sam/drivers/dacc/dacc.d \
 src/global_variables.d \
 src/matlabcomm.d \
-src/task3.d \
 src/timer_delay.d \
 src/ASF/common/services/serial/usart_serial.d \
 src/ASF/common/utils/stdio/read.d \
@@ -259,7 +255,6 @@ C_DEPS_AS_ARGS +=  \
 src/ASF/sam/drivers/dacc/dacc.d \
 src/global_variables.d \
 src/matlabcomm.d \
-src/task3.d \
 src/timer_delay.d \
 src/ASF/common/services/serial/usart_serial.d \
 src/ASF/common/utils/stdio/read.d \
@@ -304,8 +299,6 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
-
-
 
 
 

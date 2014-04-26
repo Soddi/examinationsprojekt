@@ -562,9 +562,6 @@
     <Compile Include="src\matlabcomm.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\task3.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="src\timer_delay.c">
       <SubType>compile</SubType>
     </Compile>

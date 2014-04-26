@@ -19,7 +19,7 @@ void communication(void *p) {
 			printf("%d\n", tank1_value);
 			printf("%d\n", tank2_value);
 			printf("%d\n", error_value);
-			printf("%d\n", output_signal);
+			printf("%d\n", output_value);
 		}
 		vTaskDelayUntil(&matlab_comm_startTime, 500);
 	}

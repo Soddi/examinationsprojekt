@@ -24,7 +24,7 @@ xSemaphoreHandle semafor_signal = 0;
 /* signal characteristics */
 struct {
 	uint16_t setpoint;
-	uint16_t P;
+	double P;
 	uint16_t I;
 	uint16_t D;
 } reglering;
@@ -113,14 +113,14 @@ int main(void)
 		/* a semaphore cannot be used wihtout calling vSemaphoreCreateBinary() */
 		vSemaphoreCreateBinary(semafor_signal);
 		/* Create the task giving the semaphore */
-		if (xTaskCreate(pid_reg, (const signed char * const) "Task1", 1024, NULL, 3, NULL) != pdPASS) {
+		if (xTaskCreate(PID_regulation, (const signed char * const) "Task1", 1024, NULL, 3, NULL) != pdPASS) {
 		}
 		/* Create a task taking the semaphore and doing it’s stuff */
 		if (xTaskCreate(disp_buttons, (const signed char * const) "Task2", 1024, NULL, 2, NULL) != pdPASS) {
 		}
 		/* Create a task taking the semaphore and doing it’s stuff */
-		if (xTaskCreate(communication, (const signed char * const) "Task3", 1024, NULL, 1, NULL) != pdPASS) {
-		}
+// 		if (xTaskCreate(communication, (const signed char * const) "Task3", 1024, NULL, 1, NULL) != pdPASS) {
+// 		}
 		vTaskStartScheduler();
 	}
 }
