@@ -2,9 +2,9 @@ function matlab_communication(s)
     pause on;
     set(s,'BaudRate',115200);
     fopen(s);
-    set(s, 'Timeout',10000);
+    %set(s, 'Timeout',10000);
     
-    n = 3600;
+    n = 6000;
     % prefill vectors
     h1 = zeros(1,n);
     h2 = zeros(1,n);
@@ -32,10 +32,13 @@ function matlab_communication(s)
         
         t(i) = i;
 
-        plot(t,h1,t,h2,t,e,t,u);
+        plot(t,h1,t,h2,t,e,t,u/8);
         xlabel('Antal Samplingar');
         ylabel('vattennivå');
         legend('tank1','tank2','felvärde','styrsignalen','Location','North');
         grid on;
     end
+    fclose(s);
+    delete(s);
+    clear s;
 end
