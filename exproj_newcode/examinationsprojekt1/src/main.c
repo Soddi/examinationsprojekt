@@ -27,7 +27,7 @@ struct {
 	double P;
 	uint16_t I;
 	uint16_t D;
-} reglering;
+} regulation;
 
 static void dacc_setup(void) {
 	pmc_enable_periph_clk(ID_DACC);
@@ -98,10 +98,10 @@ int main(void)
 	init_hardware(); //LCD_Shield
 	display_program_text(); //Setpoint, P, I, D- text.
 	while(1) {
-		reglering.setpoint = SETPOINT_START_VALUE;
-		reglering.P = P_START_VALUE;
-		reglering.I = I_START_VALUE;
-		reglering.D = D_START_VALUE;
+		regulation.setpoint = SETPOINT_START_VALUE;
+		regulation.P = P_START_VALUE;
+		regulation.I = I_START_VALUE;
+		regulation.D = D_START_VALUE;
 		
 		configure_console();
 	
