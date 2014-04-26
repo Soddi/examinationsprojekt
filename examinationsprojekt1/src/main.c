@@ -119,8 +119,8 @@ int main(void)
 		if (xTaskCreate(disp_buttons, (const signed char * const) "Task2", 1024, NULL, 2, NULL) != pdPASS) {
 		}
 		/* Create a task taking the semaphore and doing it’s stuff */
-// 		if (xTaskCreate(communication, (const signed char * const) "Task3", 1024, NULL, 1, NULL) != pdPASS) {
-// 		}
+ 		if (xTaskCreate(communication, (const signed char * const) "Task3", 1024, NULL, 1, NULL) != pdPASS) {
+ 		}
 		vTaskStartScheduler();
 	}
 }

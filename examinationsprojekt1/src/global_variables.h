@@ -16,7 +16,7 @@
 
 #define P_MIN_VALUE 10				/* minimum value for P-reglering */
 #define P_MAX_VALUE 30				/* maximum value for P-reglering */
-#define P_START_VALUE 10			/* start value for P-reglering */
+#define P_START_VALUE 12			/* start value for P-reglering */
 
 #define I_MIN_VALUE 50				/* minimum value for I-reglering */
 #define I_MAX_VALUE 300				/* maximum value for I-reglering */

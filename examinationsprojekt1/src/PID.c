@@ -24,11 +24,13 @@ portTickType startTime = 0;
 
 void PID_regulation(void *p)
 {
-	startTime = xTaskGetTickCount();
-	read_values();
-	run_PID_algorithm();
-	write_to_dac();
-	vTaskDelayUntil(&startTime, ticks_in_milliseconds);
+	for(;;) {
+		startTime = xTaskGetTickCount();
+		read_values();
+		run_PID_algorithm();
+		write_to_dac();
+		vTaskDelayUntil(&startTime, ticks_in_milliseconds);
+	}
 }
 
 void read_values(void)

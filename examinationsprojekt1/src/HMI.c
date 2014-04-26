@@ -92,7 +92,7 @@ void handle_input(button btn_id)
 				regulation.setpoint += 16;
 			}
 			else if (ASTERIX_VALUE == 1 && regulation.P < P_MAX_VALUE) {
-				regulation.P += 0.1;
+				regulation.P += 1;
 			}
 			else if (ASTERIX_VALUE == 2 && regulation.I < I_MAX_VALUE) {
 				regulation.I += 50;
@@ -107,7 +107,7 @@ void handle_input(button btn_id)
 				regulation.setpoint -= 16;
 			}
 			else if (ASTERIX_VALUE == 1 && regulation.P > P_MIN_VALUE) {
-				regulation.P -= 0.1;
+				regulation.P -= 1;
 			}
 			else if (ASTERIX_VALUE == 2 && regulation.I > I_MIN_VALUE) {
 				regulation.I -= 50;
@@ -160,7 +160,7 @@ void handle_input(button btn_id)
 					 lcd_put_cursor(0, 13);
 					 lcd_write_str("+");
 				 }
-				 printf("----------------------SELECT----------------------\n");
+				 //printf("----------------------SELECT----------------------\n");
 // 				 printf("Setpoint: %"PRId16"\n", reglering.setpoint);
 // 				 printf("P-reglering: %"PRId16"\n", reglering.P);
 // 				 printf("I-reglering: %"PRId16"\n", reglering.I);

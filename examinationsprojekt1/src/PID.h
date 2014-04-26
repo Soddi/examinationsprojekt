@@ -11,7 +11,7 @@
 
 #define ticks_in_milliseconds 100
 #define SAMPLE_TIME (ticks_in_milliseconds/(double)1000)
-#define NBR_OF_SAMPLES 2500
+#define NBR_OF_SAMPLES 3000
 #define MAX_OUTPUT_VALUE 4095
 #define MAX_TANK1_VALUE 3500
 
