@@ -104,7 +104,7 @@ int main(void)
 		regulation.D = D_START_VALUE;
 		
 		configure_console();
-	
+		
 		/* Print demo information */
 		/*printf("-- Freertos Exempel - Semaforer --\n\r");
 		printf("-- %s\n\r", BOARD_NAME);

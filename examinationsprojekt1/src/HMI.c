@@ -28,7 +28,7 @@ struct {
 	double P;
 	uint16_t I;
 	uint16_t D;
-} reglering;
+} regulation;
 
 /**
 * Task2 "takes" the semaphore and finishes the execution
@@ -88,32 +88,32 @@ void handle_input(button btn_id)
 			//printf("----------------------RIGHT----------------------\n");
 			break;
 			case UP:	/* Increase the value for the specified regulation */
-			if (ASTERIX_VALUE == 0 && reglering.setpoint < SETPOINT_MAX_VALUE) {
-				reglering.setpoint += 16;
+			if (ASTERIX_VALUE == 0 && regulation.setpoint < SETPOINT_MAX_VALUE) {
+				regulation.setpoint += 16;
 			}
-			else if (ASTERIX_VALUE == 1 && reglering.P < P_MAX_VALUE) {
-				reglering.P += 0.1;
+			else if (ASTERIX_VALUE == 1 && regulation.P < P_MAX_VALUE) {
+				regulation.P += 0.1;
 			}
-			else if (ASTERIX_VALUE == 2 && reglering.I < I_MAX_VALUE) {
-				reglering.I += 50;
+			else if (ASTERIX_VALUE == 2 && regulation.I < I_MAX_VALUE) {
+				regulation.I += 50;
 			}
-			else if (ASTERIX_VALUE == 3 && reglering.D < D_MAX_VALUE) {
-				reglering.D += 1;
+			else if (ASTERIX_VALUE == 3 && regulation.D < D_MAX_VALUE) {
+				regulation.D += 1;
 			}
 			//printf("----------------------UP----------------------\n");
 			break;
 			case DOWN:	/* Decrease the value for the specified regulation */
-			if (ASTERIX_VALUE == 0 && reglering.setpoint > SETPOINT_MIN_VALUE) {
-				reglering.setpoint -= 16;
+			if (ASTERIX_VALUE == 0 && regulation.setpoint > SETPOINT_MIN_VALUE) {
+				regulation.setpoint -= 16;
 			}
-			else if (ASTERIX_VALUE == 1 && reglering.P > P_MIN_VALUE) {
-				reglering.P -= 0.1;
+			else if (ASTERIX_VALUE == 1 && regulation.P > P_MIN_VALUE) {
+				regulation.P -= 0.1;
 			}
-			else if (ASTERIX_VALUE == 2 && reglering.I > I_MIN_VALUE) {
-				reglering.I -= 50;
+			else if (ASTERIX_VALUE == 2 && regulation.I > I_MIN_VALUE) {
+				regulation.I -= 50;
 			}
-			else if (ASTERIX_VALUE == 3 && reglering.D > D_MIN_VALUE) {
-				reglering.D -= 1;
+			else if (ASTERIX_VALUE == 3 && regulation.D > D_MIN_VALUE) {
+				regulation.D -= 1;
 			}
 			//printf("----------------DOWN----------------------\n");
 			break;
@@ -143,10 +143,10 @@ void handle_input(button btn_id)
 			break;
 			case SELECT: /* Confirm the new values */
 			if(xSemaphoreTake(semafor_signal, portMAX_DELAY)) {
-				 user_setpoint = reglering.setpoint;
-				 user_P = reglering.P;
-				 user_I = reglering.I;
-				 user_D = reglering.D;
+				 user_setpoint = regulation.setpoint;
+				 user_P = regulation.P;
+				 user_I = regulation.I;
+				 user_D = regulation.D;
 				 if(ASTERIX_VALUE == 0) {
 					 lcd_put_cursor(0, 0);
 					 lcd_write_str("+");
@@ -180,16 +180,16 @@ static void display_values(void)
 	/**********************/
 	
 	lcd_put_cursor(1, 0);
-	lcd_write_int(reglering.setpoint);
+	lcd_write_int(regulation.setpoint);
 	
 	lcd_put_cursor(1, 5);
-	lcd_write_int(reglering.P);
+	lcd_write_int(regulation.P);
 	
 	lcd_put_cursor(1,9);
-	lcd_write_int(reglering.I);
+	lcd_write_int(regulation.I);
 	
 	lcd_put_cursor(1, 14);
-	lcd_write_int(reglering.D);
+	lcd_write_int(regulation.D);
 }
 
 /*
