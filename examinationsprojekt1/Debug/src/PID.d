@@ -12,7 +12,7 @@ src/PID.d src/PID.o: ../src/PID.c \
  u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/lock.h \
  u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h \
  u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h \
- ../src/PID.h ../src/asf.h ../src/ASF/sam/drivers/adc/adc.h \
+ ../src/asf.h ../src/ASF/sam/drivers/adc/adc.h \
  ../src/ASF/sam/utils/compiler.h ../src/ASF/common/utils/parts.h \
  ../src/ASF/sam/utils/preprocessor/preprocessor.h \
  ../src/ASF/sam/utils/preprocessor/tpaste.h \
@@ -146,9 +146,8 @@ src/PID.d src/PID.o: ../src/PID.c \
  ../src/ASF/common/services/serial/sam_uart/uart_serial.h \
  ../src/ASF/sam/drivers/uart/uart.h ../src/ASF/sam/drivers/usart/usart.h \
  ../src/config/conf_uart_serial.h ../src/ASF/sam/drivers/tc/tc.h \
- ../src/ASF/sam/drivers/pio/pio_handler.h ../src/semafor.h ../src/d_a_c.h \
- ../src/global_variables.h \
- u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/inttypes.h
+ ../src/ASF/sam/drivers/pio/pio_handler.h ../src/PID.h ../src/semafor.h \
+ ../src/d_a_c.h ../src/global_variables.h
 
 u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/math.h:
 
@@ -175,8 +174,6 @@ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolc
 u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/include/stddef.h:
 
 u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/_ansi.h:
-
-../src/PID.h:
 
 ../src/asf.h:
 
@@ -464,10 +461,10 @@ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolc
 
 ../src/ASF/sam/drivers/pio/pio_handler.h:
 
+../src/PID.h:
+
 ../src/semafor.h:
 
 ../src/d_a_c.h:
 
 ../src/global_variables.h:
-
-u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/inttypes.h:
