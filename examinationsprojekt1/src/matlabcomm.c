@@ -10,8 +10,10 @@
 #include "global_variables.h"
 #include "matlabcomm.h"
 
-portTickType matlab_comm_startTime = 0;
+portTickType matlab_comm_startTime = 0; //Starts the ticks,
 
+/* Sends data through serial communication, should be obtained my matlab */
+/* This function is executed with a periodicity of 500ms */
 void communication(void *p) {
 	for(;;) {
 		matlab_comm_startTime = xTaskGetTickCount();

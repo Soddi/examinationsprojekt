@@ -1,8 +1,10 @@
 /*
- * task2.c
+ * HMI.c
  *
- * Created: 2014-03-17 17:18:26
+ *	Created: 2014-03-17 17:18:26
  *  Author: Soded alatia & Erik Gustafsson
+ *	This is the Human-Machine interface code. Users can change values in the LCD-display
+ *	and then confirm the changes which will be saved in global variables.
  */ 
 
 #include <asf.h>
@@ -14,15 +16,13 @@
 #include "lcd_shield.h"
 #include "global_variables.h"
 
-#include <inttypes.h>
-
-int32_t ASTERIX_VALUE = -1;			/* Asterix_value range between 0 - 3*/ 
+int32_t ASTERISK_VALUE = -1;			/* Asterisk_value range between 0 - 3*/ 
 
 
 portTickType HMI_startTime = 0;
 
 
-/* signal characteristics */
+/* regulation characteristics */
 struct {
 	uint16_t setpoint;
 	double P;
@@ -31,25 +31,23 @@ struct {
 } regulation;
 
 /**
-* Task2 "takes" the semaphore and finishes the execution
+* this function starts a tick-count, and then calls the function task2_LCD().
+* this function has a periodicity of 250 milliseconds.
 */
 void disp_buttons(void *p)
 {
 	HMI_startTime = xTaskGetTickCount();
 	for(;;)
 	{
-		/* macro to take a semaphore. It must have been
-		created with
-		vSemaphoreCreateBinary().
-		xSempahoreTake reurns pdTRUE if the semaphore was
-		recived,
-		pdFALSE if xBlockTime timed out before the semaphore
-		became availible. */
 		task2_LCD();
 		vTaskDelayUntil(&HMI_startTime, 250);
 	}
 }
 
+/*	Most of the logic is inside this function. Checks whether any button is pressed,
+*	finds out which one and does the commands it's suppose to do.
+*	To be frank this function should be divided into sub-functions for better readability.
+*/
 void handle_input(button btn_id)
 {
 	/* is one of the buttons pressed? */
@@ -58,86 +56,86 @@ void handle_input(button btn_id)
 	}
 	else if (btn_id != NO_BUTTON) {
 		switch (btn_id) {
-			case RIGHT:	/* Move the asterix to the right, to choose the regulation */
-			if(ASTERIX_VALUE == -1) {
+			case RIGHT:	/* Move the asterisk to the right, to choose the regulation */
+			if(ASTERISK_VALUE == -1) {
 				lcd_put_cursor(0, 0);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 0;
+				ASTERISK_VALUE = 0;
 			}
-			else if (ASTERIX_VALUE == 0) {
+			else if (ASTERISK_VALUE == 0) {
 				lcd_put_cursor(0, 0);
 				lcd_write_str(" ");
 				lcd_put_cursor(0, 4);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 1;
+				ASTERISK_VALUE = 1;
 			}
-			else if (ASTERIX_VALUE == 1) {
+			else if (ASTERISK_VALUE == 1) {
 				lcd_put_cursor(0, 4);
 				lcd_write_str(" ");
 				lcd_put_cursor(0, 9);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 2;
+				ASTERISK_VALUE = 2;
 			}
-			else if (ASTERIX_VALUE == 2) {
+			else if (ASTERISK_VALUE == 2) {
 				lcd_put_cursor(0, 9);
 				lcd_write_str(" ");
 				lcd_put_cursor(0, 13);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 3;
+				ASTERISK_VALUE = 3;
 			}
 			//printf("----------------------RIGHT----------------------\n");
 			break;
 			case UP:	/* Increase the value for the specified regulation */
-			if (ASTERIX_VALUE == 0 && regulation.setpoint < SETPOINT_MAX_VALUE) {
+			if (ASTERISK_VALUE == 0 && regulation.setpoint < SETPOINT_MAX_VALUE) {
 				regulation.setpoint += 16;
 			}
-			else if (ASTERIX_VALUE == 1 && regulation.P < P_MAX_VALUE) {
+			else if (ASTERISK_VALUE == 1 && regulation.P < P_MAX_VALUE) {
 				regulation.P += 1;
 			}
-			else if (ASTERIX_VALUE == 2 && regulation.I < I_MAX_VALUE) {
+			else if (ASTERISK_VALUE == 2 && regulation.I < I_MAX_VALUE) {
 				regulation.I += 50;
 			}
-			else if (ASTERIX_VALUE == 3 && regulation.D < D_MAX_VALUE) {
+			else if (ASTERISK_VALUE == 3 && regulation.D < D_MAX_VALUE) {
 				regulation.D += 1;
 			}
 			//printf("----------------------UP----------------------\n");
 			break;
 			case DOWN:	/* Decrease the value for the specified regulation */
-			if (ASTERIX_VALUE == 0 && regulation.setpoint > SETPOINT_MIN_VALUE) {
+			if (ASTERISK_VALUE == 0 && regulation.setpoint > SETPOINT_MIN_VALUE) {
 				regulation.setpoint -= 16;
 			}
-			else if (ASTERIX_VALUE == 1 && regulation.P > P_MIN_VALUE) {
+			else if (ASTERISK_VALUE == 1 && regulation.P > P_MIN_VALUE) {
 				regulation.P -= 1;
 			}
-			else if (ASTERIX_VALUE == 2 && regulation.I > I_MIN_VALUE) {
+			else if (ASTERISK_VALUE == 2 && regulation.I > I_MIN_VALUE) {
 				regulation.I -= 50;
 			}
-			else if (ASTERIX_VALUE == 3 && regulation.D > D_MIN_VALUE) {
+			else if (ASTERISK_VALUE == 3 && regulation.D > D_MIN_VALUE) {
 				regulation.D -= 1;
 			}
 			//printf("----------------DOWN----------------------\n");
 			break;
-			case LEFT:	/* Move the asterix to the left, to choose the regulation */
-			if (ASTERIX_VALUE == 3) {
+			case LEFT:	/* Move the asterisk to the left, to choose the regulation */
+			if (ASTERISK_VALUE == 3) {
 				lcd_put_cursor(0, 13);
 				lcd_write_str(" ");
 				lcd_put_cursor(0, 9);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 2;
+				ASTERISK_VALUE = 2;
 			}
-			else if (ASTERIX_VALUE == 2) {
+			else if (ASTERISK_VALUE == 2) {
 				lcd_put_cursor(0, 9);
 				lcd_write_str(" ");
 				lcd_put_cursor(0, 4);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 1;
+				ASTERISK_VALUE = 1;
 			}
-			else if (ASTERIX_VALUE == 1) {
+			else if (ASTERISK_VALUE == 1) {
 				lcd_put_cursor(0, 4);
 				lcd_write_str(" ");
 				lcd_put_cursor(0, 0);
 				lcd_write_str("*");
-				ASTERIX_VALUE = 0;
+				ASTERISK_VALUE = 0;
 			}
 			//printf("----------------------LEFT----------------------\n");
 			break;
@@ -147,24 +145,20 @@ void handle_input(button btn_id)
 				 user_P = regulation.P;
 				 user_I = regulation.I;
 				 user_D = regulation.D;
-				 if(ASTERIX_VALUE == 0) {
+				 if(ASTERISK_VALUE == 0) {
 					 lcd_put_cursor(0, 0);
 					 lcd_write_str("+");
-					 } else if(ASTERIX_VALUE == 1) {
+					 } else if(ASTERISK_VALUE == 1) {
 					 lcd_put_cursor(0, 4);
 					 lcd_write_str("+");
-					 } else if(ASTERIX_VALUE == 2) {
+					 } else if(ASTERISK_VALUE == 2) {
 					 lcd_put_cursor(0, 9);
 					 lcd_write_str("+");
-					 } else if(ASTERIX_VALUE == 3) {
+					 } else if(ASTERISK_VALUE == 3) {
 					 lcd_put_cursor(0, 13);
 					 lcd_write_str("+");
 				 }
 				 //printf("----------------------SELECT----------------------\n");
-// 				 printf("Setpoint: %"PRId16"\n", reglering.setpoint);
-// 				 printf("P-reglering: %"PRId16"\n", reglering.P);
-// 				 printf("I-reglering: %"PRId16"\n", reglering.I);
-// 				 printf("D-reglering: %"PRId16"\n", reglering.D);
  			 }
 			break;
 			default:
@@ -173,12 +167,12 @@ void handle_input(button btn_id)
 	}
 }
 
+
+/**********************/
+/* display PID-values */
+/**********************/
 static void display_values(void)
 {
-	/**********************/
-	/* display PID-values */
-	/**********************/
-	
 	lcd_put_cursor(1, 0);
 	lcd_write_int(regulation.setpoint);
 	
@@ -200,7 +194,6 @@ static button read_buttons(void)
 	button btn_id = NO_BUTTON;
 	/* read latest A/D value */
 	uint32_t adc_value = adc_get_channel_value(ADC, ADC_CHANNEL_7);
-	//printf("%u\n", adc_value);
 	if (adc_value < 400) { /* RIGHT? */
 		btn_id = RIGHT;
 	} else if (adc_value < 1000) { /* UP? */
@@ -212,13 +205,14 @@ static button read_buttons(void)
 	} else if (adc_value < 2500) { /* SELECT? */
 		btn_id = SELECT;
 	}
-	/* restart A/D conversion */
-	//adc_start(ADC);
 	/* return button ID */
 	return btn_id;
 }
 
 
+/**************************************************************************
+* This function was provided by Mathias Beckius, All cred goes to him! :) *
+**************************************************************************/
 /*
 * This function generates an arbitrary delay. This is used as an alternative
 * to a timer-based delay, which is potentially in conflict with FreeRTOS.
@@ -243,15 +237,14 @@ void lcd_delay(uint32_t x)
 	}
 }
 
+/*Checks which button was pressed, does the following commands 
+* and finally displays the new values on the LCD-display*/
 void task2_LCD(void)
 {
 	uint32_t btn_id;
 	/* read buttons on LCD shield */
 	btn_id = read_buttons();
-	//delay(150000); /* use this delay function temporary */
 	lcd_delay(150000);
 	handle_input(btn_id);
-	/* lower flag: new values has been calculated */
-	//new_value = 0;
 	display_values();
 }

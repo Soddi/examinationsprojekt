@@ -1,13 +1,13 @@
 /*
- * task2.h
+ * HMI.h
  *
  * Created: 2014-03-17 17:18:16
  *  Author: Erik Gustafsson & Soded Alatia
  */ 
 
 
-#ifndef TASK2_H_
-#define TASK2_H_
+#ifndef HMI_H_
+#define HMI_H_
 #include <asf.h>
 
  typedef enum {
@@ -21,10 +21,8 @@
 
 void disp_buttons(void*);
 void handle_input(button btn_id);
-//void display_values(void);
-//button read_buttons(void);
 void display_program_text(void);
 void lcd_delay(uint32_t x);
 void task2_LCD(void);
 
-#endif /* TASK2_H_ */
+#endif /* HMI_H_ */

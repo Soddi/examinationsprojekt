@@ -1,16 +1,16 @@
 /*
- * IncFile1.h
+ * matlabcomm.h
  *
  * Created: 2014-04-18 11:54:07
- *  Author: ac0542
+ *  Author: Soded Alatia & Erik Gustafsson
  */ 
 
 
-#ifndef INCFILE1_H_
-#define INCFILE1_H_
+#ifndef matlabcomm_H_
+#define matlabcomm_H_
 
 
 void communication(void*);
 
 
-#endif /* INCFILE1_H_ */
+#endif /* matlabcomm_H_ */

@@ -1,8 +1,10 @@
 /**
- * \file
+ * main.c
  *
- * \brief Empty user application template
- *
+ *  Author: Soded alatia & Erik Gustafsson
+ *	This project controls the watertank and regulates it with a classic PID-regulation.
+ *	There is also a HMI-interface to manually change the parameters of the regulation
+ *	Finally it communicates with matlab to plot it in real time.
  */
 
 #include <asf.h>
@@ -21,7 +23,7 @@ xSemaphoreHandle semafor_signal = 0;
 
 /* data type for button identification */
 
-/* signal characteristics */
+/* regulation characteristics */
 struct {
 	uint16_t setpoint;
 	double P;
@@ -29,6 +31,7 @@ struct {
 	uint16_t D;
 } regulation;
 
+/*Setup Digital to Analog conversion*/
 static void dacc_setup(void) {
 	pmc_enable_periph_clk(ID_DACC);
 	dacc_reset(DACC);
@@ -39,7 +42,7 @@ static void dacc_setup(void) {
 }
 
 /*
- * Making some necessary initializations for hardware and interrupts.
+ * Making some necessary initializations for hardware.
  */
 static void init_hardware(void)
 {
@@ -50,17 +53,13 @@ static void init_hardware(void)
 	ioport_init();
 	adc_setup();
 	dacc_setup();
-	//adc_start(ADC);
-	//config_timer_irq(1, 10); /* timer 1: for reading ADC, 10 times/second */
 	lcd_init();
 	
 }
 
+/*	initial program text on the LCD-shield */
 void display_program_text(void)
 {
-	/* initial program text */
-// 	lcd_put_cursor(0, 0);
-// 	lcd_write_str("*");
 	lcd_put_cursor(0, 1);
 	lcd_write_str("B");
 	lcd_put_cursor(0, 5);
@@ -69,11 +68,9 @@ void display_program_text(void)
 	lcd_write_str("Ti");
 	lcd_put_cursor(0, 14);
 	lcd_write_str("Td");
-	/*lcd_put_cursor(1,8);
-	lcd_write_str("0.0");
-	*/
 }
 
+/*	Initialise serial communication */
 void configure_console(void)
 {
 	const usart_serial_options_t uart_serial_options = {
@@ -81,38 +78,29 @@ void configure_console(void)
 		.paritytype = CONF_UART_PARITY
 	};
 	sysclk_enable_peripheral_clock(CONSOLE_UART_ID);
-	stdio_serial_init(CONF_UART, & uart_serial_options); //& betyder att man hämtar minnesplatsen för det objektet!
+	stdio_serial_init(CONF_UART, & uart_serial_options); //retrieves the memory location of the object
 	/* Stdout shall not be buffered */
 	#if defined(__GNUC__)
 	setbuf(stdout, NULL);
 	#else
-	/* Redan i fallet IAR's Normal DLIB default
-	konfiguration:
-	* sänder en tecken åtgången
-	*/
 	#endif
 }
 
 int main(void)
 {
-	init_hardware(); //LCD_Shield
+	init_hardware();
 	display_program_text(); //Setpoint, P, I, D- text.
+	regulation.setpoint = SETPOINT_START_VALUE;
+	regulation.P = P_START_VALUE;
+	regulation.I = I_START_VALUE;
+	regulation.D = D_START_VALUE;
 	while(1) {
-		regulation.setpoint = SETPOINT_START_VALUE;
-		regulation.P = P_START_VALUE;
-		regulation.I = I_START_VALUE;
-		regulation.D = D_START_VALUE;
-		
 		configure_console();
-		
-		/* Print demo information */
-		/*printf("-- Freertos Exempel - Semaforer --\n\r");
-		printf("-- %s\n\r", BOARD_NAME);
-		printf("-- Kompilerad: %s %s --\n\r", __DATE__, __TIME__);*/
-	
+
 		/* a semaphore cannot be used wihtout calling vSemaphoreCreateBinary() */
 		vSemaphoreCreateBinary(semafor_signal);
 		/* Create the task giving the semaphore */
+		/* Ranges between prio 1-3 where 3 is highest prio and 1 is lowest */
 		if (xTaskCreate(PID_regulation, (const signed char * const) "Task1", 1024, NULL, 3, NULL) != pdPASS) {
 		}
 		/* Create a task taking the semaphore and doing it’s stuff */

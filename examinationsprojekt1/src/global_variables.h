@@ -1,8 +1,9 @@
 /*
  * global_variables.h
  *
- * Created: 2014-03-25 11:50:03
- *  Author: ac0542
+ *	Created: 2014-03-25 11:50:03
+ *  Author: Soded Alatia & Erik Gustafsson
+ *	Start values are defined here so it's a bit more functional.
  */ 
 
 

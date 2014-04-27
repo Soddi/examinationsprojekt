@@ -1,8 +1,11 @@
 /*
- * task1.c
+ * PID.c
  *
  * Created: 2014-03-17 17:17:46
  *  Author: Soded Alatia & Erik Gustafsson
+ * 
+ * This is the classic PID-regulation.
+ * Reads the tank values, calculates the output value and writes to dacc channel.
  */ 
 
 #include <math.h>
@@ -22,6 +25,8 @@ double Dreg = 0;
 int8_t current_sample = 0;
 portTickType startTime = 0;
 
+/* This function is executed every 100ms
+*	Reads the analog tank values, does the regulation and writes to DAC */
 void PID_regulation(void *p)
 {
 	for(;;) {
@@ -33,6 +38,10 @@ void PID_regulation(void *p)
 	}
 }
 
+/*	reads the tank values.
+*	The values are then rescaled to compensate for the 2,7V output value from the CA3240
+*	33/27 is calculated faster than 3.3/2.7 which is essentially the same thing...
+*	It should be noted that we have forgotten to typecast the value*/
 void read_values(void)
 {
 	if((user_P) == 0 || user_I == 0 || (user_D) == 0) {
@@ -48,6 +57,7 @@ void read_values(void)
 	tank2_value = (adc_get_channel_value(ADC, ADC_CHANNEL_11)) * 33/27; // A9
 }
 
+/* calculates both the error and the output value using PID */
 void run_PID_algorithm(void)
 {
 	if(user_setpoint == 0) {
@@ -76,7 +86,7 @@ void write_to_dac(void)
 		output_value = 0;
 	}
 	
-	/*Temp failsafe mode*/
+	/*failsafe mode*/
 	if(tank1_value > MAX_TANK1_VALUE) {
 		output_value = 0;
 	}
@@ -84,9 +94,5 @@ void write_to_dac(void)
 	dacc_write_conversion_data(DACC,output_value);
 	old_error_value = error_value;
 
-	/* Makro to give a semaphore. The sempahpore must
-	have been created by calling vSemaphoreCreateBinary()
-	*/
-	/* Every other second task1 signals to task2 */
 	xSemaphoreGive(semafor_signal);
 }

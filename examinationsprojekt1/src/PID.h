@@ -1,13 +1,13 @@
 /*
- * task1.h
+ * PID.h
  *
  * Created: 2014-03-17 17:18:06
  *  Author: Soded Alatia och Erik gustafsson
  */ 
 
 
-#ifndef TASK1_H_
-#define TASK1_H_
+#ifndef PID
+#define PID
 
 #define ticks_in_milliseconds 100
 #define SAMPLE_TIME (ticks_in_milliseconds/(double)1000)
@@ -22,4 +22,4 @@ void read_values(void);
 void run_PID_algorithm(void);
 void write_to_dac(void);
 
-#endif /* TASK1_H_ */
+#endif /* PID */

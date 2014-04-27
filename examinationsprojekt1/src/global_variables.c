@@ -1,8 +1,9 @@
 /*
  * global_variables.c
  *
- * Created: 2014-04-20 12:35:36
+ *	Created: 2014-04-20 12:35:36
  *  Author: Soded Alatia, Erik Gustafsson
+ *	Global variables initiated here.
  */ 
 
 #include "global_variables.h"
