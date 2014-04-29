@@ -4,7 +4,7 @@ function matlab_communication(s)
     fopen(s);
     %set(s, 'Timeout',10000);
     
-    n = 600;
+    n = 800;
     % prefill vectors
     h1 = zeros(1,n);
     h2 = zeros(1,n);

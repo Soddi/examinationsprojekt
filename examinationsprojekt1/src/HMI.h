@@ -22,7 +22,6 @@
 void disp_buttons(void*);
 void handle_input(button btn_id);
 void display_program_text(void);
-void lcd_delay(uint32_t x);
 void task2_LCD(void);
 
 #endif /* HMI_H_ */

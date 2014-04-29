@@ -10,17 +10,15 @@
 #include "global_variables.h"
 #include "matlabcomm.h"
 
-portTickType matlab_comm_startTime = 0; //Starts the ticks,
-
 /* Sends data through serial communication, should be obtained my matlab */
 /* This function is executed with a periodicity of 500ms */
 void communication(void *p) {
+	portTickType matlab_comm_startTime = xTaskGetTickCount(); //Starts the ticks,
 	for(;;) {
-		matlab_comm_startTime = xTaskGetTickCount();
 		if(xSemaphoreTake(semafor_signal, portMAX_DELAY)) {
-			printf("%d\n", tank1_value);
-			printf("%d\n", tank2_value);
-			printf("%d\n", error_value);
+			printf("%d\n", (uint32_t)tank1_value);
+			printf("%d\n", (uint32_t)tank2_value);
+			printf("%d\n", (int32_t)error_value);
 			printf("%d\n", output_value);
 		}
 		vTaskDelayUntil(&matlab_comm_startTime, 500);

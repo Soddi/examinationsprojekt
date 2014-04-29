@@ -12,23 +12,18 @@
 #include "semafor.h"
 
 #include <math.h>
-#include "my_adc.h"
+#include "adc_and_dac.h"
 #include "lcd_shield.h"
 #include "global_variables.h"
 
-int32_t ASTERISK_VALUE = -1;			/* Asterisk_value range between 0 - 3*/ 
-
-
-portTickType HMI_startTime = 0;
-
-
 /* regulation characteristics */
-struct {
+static struct {
 	uint16_t setpoint;
 	double P;
 	uint16_t I;
 	uint16_t D;
 } regulation;
+
 
 /**
 * this function starts a tick-count, and then calls the function task2_LCD().
@@ -36,11 +31,17 @@ struct {
 */
 void disp_buttons(void *p)
 {
-	HMI_startTime = xTaskGetTickCount();
+	portTickType HMI_startTime = xTaskGetTickCount();
+	
+	regulation.setpoint = SETPOINT_START_VALUE;
+	regulation.P = P_START_VALUE;
+	regulation.I = I_START_VALUE;
+	regulation.D = D_START_VALUE;
+	
 	for(;;)
 	{
 		task2_LCD();
-		vTaskDelayUntil(&HMI_startTime, 250);
+		vTaskDelayUntil(&HMI_startTime, 150);
 	}
 }
 
@@ -50,14 +51,12 @@ void disp_buttons(void *p)
 */
 void handle_input(button btn_id)
 {
-	/* is one of the buttons pressed? */
-	
-	if(btn_id == NO_BUTTON) {
-	}
-	else if (btn_id != NO_BUTTON) {
+	static int32_t ASTERISK_VALUE = -1;	/* Asterisk_value range between 0 - 3*/ 
+	/* is one of the buttons pressed? */	
+	if (btn_id != NO_BUTTON) {
 		switch (btn_id) {
-			case RIGHT:	/* Move the asterisk to the right, to choose the regulation */
-			if(ASTERISK_VALUE == -1) {
+		case RIGHT:	/* Move the asterisk to the right, to choose the regulation */
+			if (ASTERISK_VALUE == -1) {
 				lcd_put_cursor(0, 0);
 				lcd_write_str("*");
 				ASTERISK_VALUE = 0;
@@ -85,7 +84,7 @@ void handle_input(button btn_id)
 			}
 			//printf("----------------------RIGHT----------------------\n");
 			break;
-			case UP:	/* Increase the value for the specified regulation */
+		case UP:	/* Increase the value for the specified regulation */
 			if (ASTERISK_VALUE == 0 && regulation.setpoint < SETPOINT_MAX_VALUE) {
 				regulation.setpoint += 16;
 			}
@@ -93,14 +92,14 @@ void handle_input(button btn_id)
 				regulation.P += 1;
 			}
 			else if (ASTERISK_VALUE == 2 && regulation.I < I_MAX_VALUE) {
-				regulation.I += 50;
+				regulation.I += 1;
 			}
 			else if (ASTERISK_VALUE == 3 && regulation.D < D_MAX_VALUE) {
 				regulation.D += 1;
 			}
 			//printf("----------------------UP----------------------\n");
 			break;
-			case DOWN:	/* Decrease the value for the specified regulation */
+		case DOWN:	/* Decrease the value for the specified regulation */
 			if (ASTERISK_VALUE == 0 && regulation.setpoint > SETPOINT_MIN_VALUE) {
 				regulation.setpoint -= 16;
 			}
@@ -108,14 +107,14 @@ void handle_input(button btn_id)
 				regulation.P -= 1;
 			}
 			else if (ASTERISK_VALUE == 2 && regulation.I > I_MIN_VALUE) {
-				regulation.I -= 50;
+				regulation.I -= 1;
 			}
 			else if (ASTERISK_VALUE == 3 && regulation.D > D_MIN_VALUE) {
 				regulation.D -= 1;
 			}
 			//printf("----------------DOWN----------------------\n");
 			break;
-			case LEFT:	/* Move the asterisk to the left, to choose the regulation */
+		case LEFT:	/* Move the asterisk to the left, to choose the regulation */
 			if (ASTERISK_VALUE == 3) {
 				lcd_put_cursor(0, 13);
 				lcd_write_str(" ");
@@ -139,30 +138,29 @@ void handle_input(button btn_id)
 			}
 			//printf("----------------------LEFT----------------------\n");
 			break;
-			case SELECT: /* Confirm the new values */
+		case SELECT: /* Confirm the new values */
 			if(xSemaphoreTake(semafor_signal, portMAX_DELAY)) {
-				 user_setpoint = regulation.setpoint;
-				 user_P = regulation.P;
-				 user_I = regulation.I;
-				 user_D = regulation.D;
-				 if(ASTERISK_VALUE == 0) {
-					 lcd_put_cursor(0, 0);
-					 lcd_write_str("+");
-					 } else if(ASTERISK_VALUE == 1) {
-					 lcd_put_cursor(0, 4);
-					 lcd_write_str("+");
-					 } else if(ASTERISK_VALUE == 2) {
-					 lcd_put_cursor(0, 9);
-					 lcd_write_str("+");
-					 } else if(ASTERISK_VALUE == 3) {
-					 lcd_put_cursor(0, 13);
-					 lcd_write_str("+");
-				 }
-				 //printf("----------------------SELECT----------------------\n");
+				user_setpoint = regulation.setpoint;
+				user_P = regulation.P;
+				user_I = regulation.I;
+				user_D = regulation.D;
+				if(ASTERISK_VALUE == 0) {
+					lcd_put_cursor(0, 0);
+					lcd_write_str("+");
+				} else if(ASTERISK_VALUE == 1) {
+					lcd_put_cursor(0, 4);
+					lcd_write_str("+");
+				} else if(ASTERISK_VALUE == 2) {
+					lcd_put_cursor(0, 9);
+					lcd_write_str("+");
+				} else if(ASTERISK_VALUE == 3) {
+					lcd_put_cursor(0, 13);
+					lcd_write_str("+");
+				}
+				//printf("----------------------SELECT----------------------\n");
  			 }
 			break;
-			default:
-			break;
+		default: ;
 		}
 	}
 }
@@ -179,10 +177,20 @@ static void display_values(void)
 	lcd_put_cursor(1, 5);
 	lcd_write_int(regulation.P);
 	
-	lcd_put_cursor(1,9);
+	if(regulation.I < 100) {
+		lcd_put_cursor(1,11);
+		lcd_write_str(" ");
+		lcd_put_cursor(1, 12);
+		lcd_write_str(" ");
+	}
+	lcd_put_cursor(1,10);
 	lcd_write_int(regulation.I);
 	
-	lcd_put_cursor(1, 14);
+	if(regulation.D < 10) {
+		lcd_put_cursor(1,15);
+		lcd_write_str(" ");
+		}
+	lcd_put_cursor(1,14);
 	lcd_write_int(regulation.D);
 }
 
@@ -209,34 +217,6 @@ static button read_buttons(void)
 	return btn_id;
 }
 
-
-/**************************************************************************
-* This function was provided by Mathias Beckius, All cred goes to him! :) *
-**************************************************************************/
-/*
-* This function generates an arbitrary delay. This is used as an alternative
-* to a timer-based delay, which is potentially in conflict with FreeRTOS.
-* A delay function provided by FreeRTOS could be an alternative, but that
-* function is depending on the "tick rate frequency", which shouldn't be
-* higher than 1000 Hz. Since we need delays measured in microseconds, then
-* this function might do the job.
-* A table of some delay times:
-* lcd_delay(1) ~ 0.9 탎
-* lcd_delay(17) ~ 10.1 탎
-* lcd_delay(70) ~ 40.2 탎
-* lcd_delay(90) ~ 50.2 탎
-* lcd_delay(174) ~ 99.5 탎
-* lcd_delay(3000) ~ 1.7 ms
-*/
-void lcd_delay(uint32_t x)
-{
-	volatile uint32_t i;
-	volatile uint32_t j;
-	for (i = 0; i < x; i++) {
-		for (j = 0; j < 2; j++);
-	}
-}
-
 /*Checks which button was pressed, does the following commands 
 * and finally displays the new values on the LCD-display*/
 void task2_LCD(void)
@@ -244,7 +224,7 @@ void task2_LCD(void)
 	uint32_t btn_id;
 	/* read buttons on LCD shield */
 	btn_id = read_buttons();
-	lcd_delay(150000);
+	vTaskDelay(50);
 	handle_input(btn_id);
 	display_values();
 }

@@ -9,11 +9,16 @@
 
 #include "lcd_shield.h"
 
+static uint8_t lcd_init_write(uint8_t);
+static void lcd_delay(uint32_t);
+
 /*
  * Initializes the display on the LCD shield, returns 1 if everything is OK.
  */
 int lcd_init(void)
 {	
+	/* timer 0: for timer based delay() */
+	delay_init(0);
 	/* At power on */
 	ioport_set_pin_dir(LCD_RS, IOPORT_DIR_OUTPUT);
 	ioport_set_pin_dir(LCD_Enable, IOPORT_DIR_OUTPUT);
@@ -68,14 +73,15 @@ int lcd_init(void)
 	
 	delay(100);
 
-	lcd_write(0b00101000, LOW);		/* Two rows, small font */
-	lcd_write(0b00001000, LOW);		/* Display off */
-	lcd_clear();					/* Display clear */
+	lcd_init_write(0b00101000);		/* Two rows, small font */
+	lcd_init_write(0b00001000);		/* Display off */
+	lcd_init_write(0x01);			/* Display clear */
+	delay(1600);					/* delay of 1.6 ms is necessary */
 	
 	delay(3000);
 	
-	lcd_write(0b00000110, LOW);			/* Entry mode set: move cursor right, no display shift */
-	lcd_set_cursor(LCD_NO_CURSOR);		/* Display on + cursor setting */
+	lcd_init_write(0b00000110);		/* Entry mode set: move cursor right, no display shift */
+	lcd_init_write(0x0C);			/* Display on + cursor setting */
 
 	/* simple return statement showing that the
 	   initialization of the LCD has completed */
@@ -91,7 +97,7 @@ int lcd_init(void)
 int lcd_clear(void)
 {
 	lcd_write(0x01, LOW);
-	delay(1600);	/* delay of 1.6 ms is necessary */
+	lcd_delay(1600);	/* delay of 1.6 ms is necessary */
 	return 1;
 }
 
@@ -116,7 +122,7 @@ int lcd_set_cursor(uint8_t cursor)
 int lcd_put_cursor(uint8_t row, uint8_t col)
 {
 	lcd_write((128 | (row << 6) | col), LOW);
-	delay(40);	/* delay of 40 microseconds is necessary */
+	lcd_delay(40);	/* delay of 40 microseconds is necessary */
 	return 1;
 }
 
@@ -148,6 +154,51 @@ uint8_t lcd_write(uint8_t byte, bool type)
 	mirrored_output = byte << 4;
 	
 	ioport_set_pin_level(LCD_RS, type); 
+	ioport_set_port_level(IOPORT_PIOC, LCD_mask_D4_D7, byte32);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	lcd_delay(1);
+	ioport_set_pin_level(LCD_Enable, LOW);
+	lcd_delay(100);
+	
+	/* write the second 4 bits to the shield. */
+	byte = byte_orig;
+	byte = byte & 0x0f;
+	byte = mirror_pin[byte];
+	byte32 = (uint32_t) (byte << 23);
+	mirrored_output = mirrored_output + byte;
+
+	ioport_set_port_level(IOPORT_PIOC, LCD_mask_D4_D7, byte32);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	lcd_delay(1);
+	ioport_set_pin_level(LCD_Enable, LOW);
+	lcd_delay(100);
+	
+	return mirrored_output;
+}
+
+/*
+ * Same function as 'lcd_write()', but this function uses the timer based delay.
+ */
+static uint8_t lcd_init_write(uint8_t byte)
+{
+	uint32_t byte32;
+	uint8_t byte_orig;
+	uint8_t mirrored_output = 0;
+	/* using array - choosing speed before memory space */
+	uint8_t mirror_pin[16] = {0b0000, 0b1000, 0b0100, 0b1100,
+		0b0010, 0b1010, 0b0110, 0b1110,
+		0b0001, 0b1001, 0b0101, 0b1101,
+	0b0011, 0b1011, 0b0111, 0b1111};
+	
+	byte_orig = byte;
+
+	/* write the first 4 bits to the shield. */
+	byte = byte >> 4;
+	byte = mirror_pin[byte];
+	byte32 = (uint32_t) (byte << 23);
+	mirrored_output = byte << 4;
+	
+	ioport_set_pin_level(LCD_RS, LOW);
 	ioport_set_port_level(IOPORT_PIOC, LCD_mask_D4_D7, byte32);
 	ioport_set_pin_level(LCD_Enable, HIGH);
 	delay(1);
@@ -201,4 +252,31 @@ int lcd_write_str(const char *str)
 		str++;
 	}
 	return 1;
+}
+
+/**************************************************************************
+* This function was provided by Mathias Beckius, All cred goes to him! :) *
+**************************************************************************/
+/*
+* This function generates an arbitrary delay. This is used as an alternative
+* to a timer-based delay, which is potentially in conflict with FreeRTOS.
+* A delay function provided by FreeRTOS could be an alternative, but that
+* function is depending on the "tick rate frequency", which shouldn't be
+* higher than 1000 Hz. Since we need delays measured in microseconds, then
+* this function might do the job.
+* A table of some delay times:
+* lcd_delay(1) ~ 0.9 탎
+* lcd_delay(17) ~ 10.1 탎
+* lcd_delay(70) ~ 40.2 탎
+* lcd_delay(90) ~ 50.2 탎
+* lcd_delay(174) ~ 99.5 탎
+* lcd_delay(3000) ~ 1.7 ms
+*/
+static void lcd_delay(uint32_t x)
+{
+	volatile uint32_t i;
+	volatile uint32_t j;
+	for (i = 0; i < x; i++) {
+		for (j = 0; j < 2; j++);
+	}
 }

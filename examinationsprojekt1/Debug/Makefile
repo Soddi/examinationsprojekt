@@ -129,7 +129,7 @@ C_SRCS +=  \
 ../src/ASF/sam/utils/cmsis/sam3x/source/templates/gcc/startup_sam3x.c \
 ../src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.c \
 ../src/ASF/sam/utils/syscalls/gcc/syscalls.c \
-../src/my_adc.c \
+../src/adc_and_dac.c \
 ../src/PID.c \
 ../src/HMI.c
 
@@ -173,7 +173,7 @@ src/ASF/sam/utils/cmsis/sam3x/source/templates/exceptions.o \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/gcc/startup_sam3x.o \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.o \
 src/ASF/sam/utils/syscalls/gcc/syscalls.o \
-src/my_adc.o \
+src/adc_and_dac.o \
 src/PID.o \
 src/HMI.o
 
@@ -210,7 +210,7 @@ src/ASF/sam/utils/cmsis/sam3x/source/templates/exceptions.o \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/gcc/startup_sam3x.o \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.o \
 src/ASF/sam/utils/syscalls/gcc/syscalls.o \
-src/my_adc.o \
+src/adc_and_dac.o \
 src/PID.o \
 src/HMI.o
 
@@ -247,7 +247,7 @@ src/ASF/sam/utils/cmsis/sam3x/source/templates/exceptions.d \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/gcc/startup_sam3x.d \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.d \
 src/ASF/sam/utils/syscalls/gcc/syscalls.d \
-src/my_adc.d \
+src/adc_and_dac.d \
 src/PID.d \
 src/HMI.d
 
@@ -284,7 +284,7 @@ src/ASF/sam/utils/cmsis/sam3x/source/templates/exceptions.d \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/gcc/startup_sam3x.d \
 src/ASF/sam/utils/cmsis/sam3x/source/templates/system_sam3x.d \
 src/ASF/sam/utils/syscalls/gcc/syscalls.d \
-src/my_adc.d \
+src/adc_and_dac.d \
 src/PID.d \
 src/HMI.d
 

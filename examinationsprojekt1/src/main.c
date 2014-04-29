@@ -14,32 +14,12 @@
 
 #include <math.h>
 #include "timer_delay.h"
-#include "my_adc.h"
+#include "adc_and_dac.h"
 #include "lcd_shield.h"
 #include "global_variables.h"
 
 /* Define a variable of the type xSemaphoreHandle */
 xSemaphoreHandle semafor_signal = 0;
-
-/* data type for button identification */
-
-/* regulation characteristics */
-struct {
-	uint16_t setpoint;
-	double P;
-	uint16_t I;
-	uint16_t D;
-} regulation;
-
-/*Setup Digital to Analog conversion*/
-static void dacc_setup(void) {
-	pmc_enable_periph_clk(ID_DACC);
-	dacc_reset(DACC);
-	dacc_set_transfer_mode(DACC, 0);
-	dacc_set_timing(DACC,1,1,0); //1 is shortest refresh period, 1 max. speed, 0 startup time
-	dacc_set_channel_selection(DACC,0); //Channel DAC0
-	dacc_enable_channel(DACC, 0); //enable DAC0
-}
 
 /*
  * Making some necessary initializations for hardware.
@@ -49,12 +29,10 @@ static void init_hardware(void)
 	/* Initiera SAM systemet */
 	sysclk_init();
 	board_init();
-	delay_init(0); /* timer 0: for delay() */
 	ioport_init();
 	adc_setup();
 	dacc_setup();
-	lcd_init();
-	
+	lcd_init();	
 }
 
 /*	initial program text on the LCD-shield */
@@ -90,11 +68,7 @@ int main(void)
 {
 	init_hardware();
 	display_program_text(); //Setpoint, P, I, D- text.
-	regulation.setpoint = SETPOINT_START_VALUE;
-	regulation.P = P_START_VALUE;
-	regulation.I = I_START_VALUE;
-	regulation.D = D_START_VALUE;
-	while(1) {
+	while (1) {
 		configure_console();
 
 		/* a semaphore cannot be used wihtout calling vSemaphoreCreateBinary() */
@@ -104,11 +78,11 @@ int main(void)
 		if (xTaskCreate(PID_regulation, (const signed char * const) "Task1", 1024, NULL, 3, NULL) != pdPASS) {
 		}
 		/* Create a task taking the semaphore and doing it’s stuff */
-		if (xTaskCreate(disp_buttons, (const signed char * const) "Task2", 1024, NULL, 2, NULL) != pdPASS) {
+		if (xTaskCreate(disp_buttons, (const signed char * const) "Task2", 1024, NULL, 1, NULL) != pdPASS) {
 		}
 		/* Create a task taking the semaphore and doing it’s stuff */
- 		if (xTaskCreate(communication, (const signed char * const) "Task3", 1024, NULL, 1, NULL) != pdPASS) {
- 		}
+  		if (xTaskCreate(communication, (const signed char * const) "Task3", 1024, NULL, 2, NULL) != pdPASS) {
+  		}
 		vTaskStartScheduler();
 	}
 }

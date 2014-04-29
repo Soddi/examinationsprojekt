@@ -148,7 +148,8 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/sam/drivers/pio/pio_handler.h ../src/PID.h ../src/HMI.h \
  ../src/matlabcomm.h \
  u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/math.h \
- ../src/timer_delay.h ../src/asf.h ../src/my_adc.h ../src/lcd_shield.h \
+ ../src/timer_delay.h ../src/asf.h ../src/adc_and_dac.h \
+ ../src/lcd_shield.h \
  u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/string.h \
  u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolchain\bin\../lib/gcc/arm-none-eabi/4.7.3/../../../../arm-none-eabi/include/sys/string.h \
  ../src/global_variables.h
@@ -475,7 +476,7 @@ u:\installedapps\atmel\atmel\ toolchain\arm\ gcc\native\4.7.3.1029\arm-gnu-toolc
 
 ../src/asf.h:
 
-../src/my_adc.h:
+../src/adc_and_dac.h:
 
 ../src/lcd_shield.h:
 
